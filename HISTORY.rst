@@ -3,6 +3,10 @@
 History
 -------
 
+1.2.2 (2019-03-01)
+++++++++++++++++++
+* Add ``OIDC_VERIFY_KID`` setting to skip KID validation
+
 1.2.1 (2019-01-22)
 ++++++++++++++++++
 
