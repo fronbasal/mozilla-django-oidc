@@ -3,9 +3,16 @@
 History
 -------
 
-1.2.2 (2019-03-01)
+1.2.3 (2019-10-05)
 ++++++++++++++++++
+
 * Add ``OIDC_VERIFY_KID`` setting to skip KID validation
+
+1.2.2 (2019-04-18)
+*******************
+
+* Add Mozilla code of conduct
+* Allow overriding OIDC settings per class
 
 1.2.1 (2019-01-22)
 ++++++++++++++++++
