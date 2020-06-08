@@ -6,11 +6,7 @@ except ImportError:
     # Python < 3
     from urllib import urlencode
 
-try:
-    from django.urls import reverse
-except ImportError:
-    # Django < 2.0.0
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth import BACKEND_SESSION_KEY
 from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.crypto import get_random_string
@@ -19,11 +15,7 @@ from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
 
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
-from mozilla_django_oidc.utils import (
-    absolutify,
-    import_from_settings,
-    is_authenticated
-)
+from mozilla_django_oidc.utils import absolutify, import_from_settings
 
 
 LOGGER = logging.getLogger(__name__)
@@ -37,6 +29,10 @@ class SessionRefresh(MiddlewareMixin):
 
     """
 
+    @staticmethod
+    def get_settings(attr, *args):
+        return import_from_settings(attr, *args)
+
     @cached_property
     def exempt_urls(self):
         """Generate and return a set of url paths to exempt from SessionRefresh
@@ -48,7 +44,7 @@ class SessionRefresh(MiddlewareMixin):
         :returns: list of url paths (for example "/oidc/callback/")
 
         """
-        exempt_urls = list(import_from_settings('OIDC_EXEMPT_URLS', []))
+        exempt_urls = list(self.get_settings('OIDC_EXEMPT_URLS', []))
         exempt_urls.extend([
             'oidc_authentication_init',
             'oidc_authentication_callback',
@@ -77,7 +73,7 @@ class SessionRefresh(MiddlewareMixin):
 
         return (
             request.method == 'GET' and
-            is_authenticated(request.user) and
+            request.user.is_authenticated and
             is_oidc_enabled and
             request.path not in self.exempt_urls
         )
@@ -96,9 +92,9 @@ class SessionRefresh(MiddlewareMixin):
 
         LOGGER.debug('id token has expired')
         # The id_token has expired, so we have to re-authenticate silently.
-        auth_url = import_from_settings('OIDC_OP_AUTHORIZATION_ENDPOINT')
-        client_id = import_from_settings('OIDC_RP_CLIENT_ID')
-        state = get_random_string(import_from_settings('OIDC_STATE_SIZE', 32))
+        auth_url = self.get_settings('OIDC_OP_AUTHORIZATION_ENDPOINT')
+        client_id = self.get_settings('OIDC_RP_CLIENT_ID')
+        state = get_random_string(self.get_settings('OIDC_STATE_SIZE', 32))
 
         # Build the parameters as if we were doing a real auth handoff, except
         # we also include prompt=none.
@@ -107,15 +103,16 @@ class SessionRefresh(MiddlewareMixin):
             'client_id': client_id,
             'redirect_uri': absolutify(
                 request,
-                reverse('oidc_authentication_callback')
+                reverse(self.get_settings('OIDC_AUTHENTICATION_CALLBACK_URL',
+                                          'oidc_authentication_callback'))
             ),
             'state': state,
-            'scope': import_from_settings('OIDC_RP_SCOPES', 'openid email'),
+            'scope': self.get_settings('OIDC_RP_SCOPES', 'openid email'),
             'prompt': 'none',
         }
 
-        if import_from_settings('OIDC_USE_NONCE', True):
-            nonce = get_random_string(import_from_settings('OIDC_NONCE_SIZE', 32))
+        if self.get_settings('OIDC_USE_NONCE', True):
+            nonce = get_random_string(self.get_settings('OIDC_NONCE_SIZE', 32))
             params.update({
                 'nonce': nonce
             })

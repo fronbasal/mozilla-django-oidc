@@ -3,68 +3,82 @@
 History
 -------
 
-1.2.2 (2019-03-01)
-++++++++++++++++++
+1.2.4 (2020-06-08)
+===================
 * Add ``OIDC_VERIFY_KID`` setting to skip KID validation
 
+1.2.3 (2020-01-02)
+===================
+
+* Add support for Django 3.x
+  Thanks `@jaap3 <https://github.com/jaap3>`_
+* Use new E2E testing images from mozilla namespace
+* Remove support for EOL'ed Django versions
+
+1.2.2 (2019-04-18)
+===================
+
+* Add Mozilla code of conduct
+* Allow overriding OIDC settings per class
+
 1.2.1 (2019-01-22)
-++++++++++++++++++
+===================
 
 * Make `verify_claims` compatible with custom scope configuration.
 
 1.2.0 (2019-01-09)
-+++++++++++++++++++
+==================
 
 * Improve travis automation for PyPI releases
 * Allow basic auth for OIDC token endpoint requests
-  Thanks `@anttipalola`_
+  Thanks `@anttipalola <https://github.com/anttipalola>`_
 * Replace phantomjs with firefox headless for e2e testing
 * Add default email verification claim check
-  Thanks `@kerrermanisNL`_
+  Thanks `@kerrermanisNL <https://github.com/kerrermanisNL>`_
 * Remove compatibility code for unsupported Django versions
 * Add settings to control redirect behavior
-  Thanks `@chrisbrantley`_
+  Thanks `@chrisbrantley <https://github.com/chrisbrantley>`_
 
 1.1.2 (2018-08-24)
-++++++++++++++++++
+===================
 
 * Fix JWKS handling when OP returns multiple keys
-  Thanks `@JustinAzoff`_
+  Thanks `@JustinAzoff <https://github.com/JustinAzoff>`_
 
 
 1.1.1 (2018-08-09)
-+++++++++++++++++++
+===================
 
 * Fix `is_safe_url` on Django 2.1
 * Fix signature in `authenticate` method to be compatible with Django 2.1
 * Remove legacy code for unsupported Django < 1.11
-  Thanks `@SirTyson`_
+  Thanks `@SirTyson <https://github.com/SirTyson>`_
 
 
 1.1.0 (2018-08-02)
-+++++++++++++++++++
+===================
 
 * Installation doc fixes
-  Thanks `@mklan`_
+  Thanks `@mklan <https://github.com/mklan>`_
 * Drop support for unsupported Django 1.8 and Python 3.3.
 * Refactor authentication backend to make it easier to extend
   Required by DRF support feature.
 * Add DRF support
-  Thanks `@anlutro`_
+  Thanks `@anlutro <https://github.com/anlutro>`_
 * Improve local docker environment setup
 * Add flag to allow using unsecured tokens
 * Allow using JWK with optional ``alg``
-  Thanks `@Algogator`_
+  Thanks `@Algogator <https://github.com/Algogator>`_
 
 
 1.0.0 (2018-05-09)
-++++++++++++++++++
+===================
 
 * Add OIDC_AUTHENTICATION_CALLBACK_URL as a new configuration parameter
 * Fail earlier when JWS algorithm does not OIDC_RP_SIGN_ALGO.
-  Thanks `@anlutro`_
+  Thanks `@anlutro <https://github.com/anlutro>`_
 * RS256 verification through ``settings.OIDC_OP_JWKS_ENDPOINT``
-  Thanks `@GermanoGuerrini`_
+  Thanks `@GermanoGuerrini <https://github.com/GermanoGuerrini>`_
 * Refactor OIDCAuthenticationBackend so that token retrieval methods can be overridden in a subclass when you need to.
 
 Backwards-incompatible changes:
@@ -76,14 +90,14 @@ Backwards-incompatible changes:
 .. _`@anlutro`: https://github.com/anlutro
 
 0.6.0 (2018-03-27)
-++++++++++++++++++
+===================
 
 * Add e2e tests and automation
 * Add caching for exempt URLs
 * Fix logout when session refresh fails
 
 0.5.0 (2018-01-10)
-++++++++++++++++++
+===================
 
 * Add Django 2.0 support
 * Fix tox configuration
@@ -93,18 +107,18 @@ Backwards-incompatible changes:
 * Drop Django 1.10 support
 
 0.4.2 (2017-11-29)
-++++++++++++++++++
+===================
 
 * Fix OIDC_USERNAME_ALGO to actually load dotted import path of callback.
 * Add verify_claims method for advanced authentication checks
 
 0.4.1 (2017-10-25)
-++++++++++++++++++
+===================
 
 * Send bytes to josepy. Fixes python3 support.
 
 0.4.0 (2017-10-24)
-++++++++++++++++++
+===================
 
 Security issues:
 
@@ -116,19 +130,19 @@ Backwards-incompatible changes:
 
 
 0.3.2 (2017-10-03)
-++++++++++++++++++
+===================
 
 Features:
 
 * Implement RS256 verification
-  Thanks `@puiterwijk`_
+  Thanks `@puiterwijk <https://github.com/puiterwijk>`_
 
 Bugs:
 
 * Use ``settings.OIDC_VERIFY_SSL`` also when validating the token.
-  Thanks `@GermanoGuerrini`_
+  Thanks `@GermanoGuerrini <https://github.com/GermanoGuerrini>`_
 * Make OpenID Connect scope configurable.
-  Thanks `@puiterwijk`_
+  Thanks `@puiterwijk <https://github.com/puiterwijk>`_
 * Add path host injection unit-test (#171)
 * Revisit OIDC_STORE_{ACCESS,ID}_TOKEN config entries
 * Allow configuration of additional auth parameters
@@ -138,14 +152,14 @@ Bugs:
 .. _`@puiterwijk`: https://github.com/puiterwijk
 
 0.3.1 (2017-06-15)
-++++++++++++++++++
+===================
 
 Security issues:
 
 * **Medium**: Sanitize next url for authentication view
 
 0.3.0 (2017-06-13)
-++++++++++++++++++
+===================
 
 Security issues:
 
@@ -162,7 +176,7 @@ Bugs:
 * Test suite maintenance (#108, #109, #142)
 
 0.2.0 (2017-06-07)
-++++++++++++++++++
+===================
 
 Backwards-incompatible changes:
 
@@ -195,6 +209,6 @@ Bugs:
 * fix is_authenticated usage for Django 1.10+ (#125)
 
 0.1.0 (2016-10-12)
-++++++++++++++++++
+===================
 
 * First release on PyPI.

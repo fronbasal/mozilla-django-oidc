@@ -1,4 +1,5 @@
 import json
+import six
 from mock import Mock, call, patch
 
 from cryptography.hazmat.backends import default_backend
@@ -9,7 +10,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import SuspiciousOperation
 from django.test import RequestFactory, TestCase, override_settings
-from django.utils import six
 from django.utils.encoding import force_bytes, smart_text
 
 from mozilla_django_oidc.auth import (
@@ -434,8 +434,8 @@ class OIDCAuthenticationBackendTestCase(TestCase):
         self.backend.authenticate(request=auth_request)
         self.assertEqual(User.objects.all().count(), 1)
         user = User.objects.all()[0]
-        self.assertEquals(user.email, 'email@example.com')
-        self.assertEquals(user.username, 'username_algo')
+        self.assertEqual(user.email, 'email@example.com')
+        self.assertEqual(user.username, 'username_algo')
 
         token_mock.assert_called_once_with('id_token', nonce=None)
         request_mock.post.assert_called_once_with('https://server.example.com/token',
@@ -502,7 +502,7 @@ class OIDCAuthenticationBackendTestCase(TestCase):
         self.assertEqual(sent_data['code'], post_data['code'])
         self.assertEqual(sent_data['redirect_uri'], post_data['redirect_uri'])
 
-        auth = _kwargs['auth']  # type: requests.auth.HTTPBasicAuth
+        auth = _kwargs['auth']  # requests.auth.HTTPBasicAuth
         self.assertEqual(auth.username, 'example_id')
         self.assertEqual(auth.password, 'client_secret')
         self.assertEqual(_kwargs['verify'], True)
